@@ -4,5 +4,6 @@
 
 {% block content %}
     <h1>Main panel</h1>
-    <p>Welcome to the main panel<br>Remember to drink a lot of water</p>
+    <p>Welcome <strong>{{ request.user.first_name|default:request.user.username }}</strong>
+        to the main panel<br>Remember to drink a lot of water</p>
 {% endblock %}
