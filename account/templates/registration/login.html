@@ -7,7 +7,8 @@
     {% if from.errors  %}
         <p>Username or password is incorrent<br>Try again</p>
     {% else %}
-        <p>Fill out the form below to log in:</p>
+        <p>Fill out the form below to log in.<br>
+        If you do not have an account, you can <a href='{% url "register" %}'>register</a></p>
     {% endif %}
     <div class="login-form">
         <form action="{% url 'login' %}" method="post">

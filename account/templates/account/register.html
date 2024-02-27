@@ -6,7 +6,7 @@
     <h1>Create account</h1>
     <p>Fill out the form below to register</p>
     <form method="post">
-        {{ form.as_p }}
+        {{ user_form.as_p }}
         {% csrf_token %}
         <p><input type="submit" value="register"></p>
     </form>
