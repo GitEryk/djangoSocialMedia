@@ -19,23 +19,26 @@
             <li {% if section == "people" %} class="selected" {% endif %}>
                 <a href="#">People</a>
             </li>
+            <li {% if section == "edit" %} class="selected" {% endif %}>
+                <a href='{% url "edit" %}'>Profil</a>
+            </li>
         </ul>
         {% endif %}
-     <div class="user">
-    {% if request.user.is_authenticated %}
-        <form action="{% url 'logout' %}" method="post">
-            {% csrf_token %}
-            <input type="submit" value="Logout"
-                   style="font-size: 12px; padding: 0; margin: 0;"/>
-        </form>
-    {% else %}
-        <form action="{% url 'login' %}">
-            {% csrf_token %}
-            <input type="submit" value="Login"
-                   style="font-size: 12px; padding: 0; margin: 0;"/>
-        </form>
-    {% endif %}
-</div>
+         <div class="user">
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Logout"
+                           style="font-size: 12px; padding: 0; margin: 0;"/>
+                </form>
+            {% else %}
+                <form action="{% url 'login' %}">
+                    {% csrf_token %}
+                    <input type="submit" value="Login"
+                           style="font-size: 12px; padding: 0; margin: 0;"/>
+                </form>
+            {% endif %}
+        </div>
     </div>
     <div id="content">
         {% block content %}
