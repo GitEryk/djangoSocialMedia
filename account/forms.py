@@ -8,6 +8,12 @@ class UserEditForm(forms.ModelForm):
         model = User
         fields = ["first_name", "last_name", "email"]
 
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        qs = User.objects.exclute(id=self.instance.id).filter(email=data)
+        if qs.exists():
+            raise forms.ValidationError("This address email just been used")
+        return data
 
 class ProfileEditForm(forms.ModelForm):
     class Meta:
@@ -33,3 +39,9 @@ class UserRegistrationForm(forms.ModelForm):
         if cd["password"] != cd["password2"]:
             raise forms.ValidationError("Passwords are not the same")
         return cd["password2"]
+
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        if User.objects.filter(email=data).exists():
+            raise forms.ValidationError("This address email just been used")
+        return data
