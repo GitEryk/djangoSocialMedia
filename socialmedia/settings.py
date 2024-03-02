@@ -119,4 +119,18 @@ MEDIA_ROOT = BASE_DIR / "media"
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "account.authentication.EmailAuthBackend",
+    "social_core.backends.facebook.FacebookOAuth2",
+    "social_core.backends.twitter.TwitterOAuth",
+    'social_core.backends.google.GoogleOAuth2',
 ]
+
+SOCIAL_AUTH_FACEBOOK_KEY = 'xxx'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'xxx'
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
+SOCIAL_AUTH_FACEBOOK_REDIRECT_URI = 'https://test-eryk.pl:8000/social-auth/complete/facebook'
+
+SOCIAL_AUTH_TWITTER_KEY = "xxx"
+SOCIAL_AUTH_TWITTER_SECRET = "xxx"
+
+SOCIAL_AUTH_GOOGLE_KEY = "xxx"
+SOCIAL_AUTH_GOOGLE_SECRET = "xxx"

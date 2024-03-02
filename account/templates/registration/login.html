@@ -21,4 +21,21 @@
             <a href='{% url "password_reset" %}'>Forget password</a>
         </p>
     </div>
+    <div class="social">
+        <ul>
+            <li class="facebook">
+                <a href='{% url "social:begin" "facebook" %}'>Login to use Facebook account</a>
+            </li>
+        </ul>
+        <ul>
+            <li class="twitter">
+                <a href='{% url "social:begin" "twitter" %}'>Login to use X account</a>
+            </li>
+        </ul>
+        <ul>
+            <li class="google">
+                <a href='{% url "social:begin" "google" %}'>Login to use Google account</a>
+            </li>
+        </ul>
+    </div>
 {% endblock %}
