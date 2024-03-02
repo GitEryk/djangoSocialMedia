@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Login</h1>
     {% if from.errors  %}
-        <p>Username or password is incorrent<br>Try again</p>
+        <p>Username or password is incorrect<br>Try again</p>
     {% else %}
         <p>Fill out the form below to log in.<br>
         If you do not have an account, you can <a href='{% url "register" %}'>register</a></p>
@@ -24,17 +24,17 @@
     <div class="social">
         <ul>
             <li class="facebook">
-                <a href='{% url "social:begin" "facebook" %}'>Login to use Facebook account</a>
+                <a href='{% url "social:begin" "facebook" %}'>Sign in with Facebook account</a>
             </li>
         </ul>
         <ul>
             <li class="twitter">
-                <a href='{% url "social:begin" "twitter" %}'>Login to use X account</a>
+                <a href='{% url "social:begin" "twitter" %}'>Sign in with X account</a>
             </li>
         </ul>
         <ul>
             <li class="google">
-                <a href='{% url "social:begin" "google" %}'>Login to use Google account</a>
+                <a href='{% url "social:begin" "google" %}'>Sign in with Google account</a>
             </li>
         </ul>
     </div>
