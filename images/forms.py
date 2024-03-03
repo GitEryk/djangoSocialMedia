@@ -5,7 +5,7 @@ from django.utils.text import slugify
 import requests
 
 
-class ImageCreateForm:
+class ImageCreateForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ["title", "url", "description"]
@@ -18,7 +18,8 @@ class ImageCreateForm:
         valid_extensions = ["jpg", "jpeg", "png"]
         extension = url.rsplit('.', 1)[1].lower()
         if extension not in valid_extensions:
-            raise forms.ValidationError("This url address does not contains an image in the allowed format")
+            raise forms.ValidationError("This url address does not contains an image in the "
+                                        "allowed format " + str(extension))
         return url
 
     def save(self, force_insert=False, force_update=False, commit=True):
