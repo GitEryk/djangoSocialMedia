@@ -46,3 +46,4 @@ class UserRegistrationForm(forms.ModelForm):
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError("This address email just been used")
         return data
+
