@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'social_django',
     'django_extensions',
     'images.apps.ImagesConfig',
+ 
 ]
 
 MIDDLEWARE = [
@@ -37,6 +38,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+
 ]
 
 ROOT_URLCONF = 'socialmedia.urls'
@@ -129,7 +132,7 @@ SOCIAL_AUTH_FACEBOOK_KEY = 'xxx'
 SOCIAL_AUTH_FACEBOOK_SECRET = 'xxx'
 SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
-SOCIAL_AUTH_TWITER_KEY = "xxx"
+SOCIAL_AUTH_TWITTER_KEY = "xxx"
 SOCIAL_AUTH_TWITTER_SECRET = "xxx"
 
 SOCIAL_AUTH_GOOGLE_KEY = "xxx"
@@ -147,3 +150,5 @@ SOCIAL_AUTH_PIPELINE = [
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 ]
+
+SECURE_SSL_REDIRECT = False
