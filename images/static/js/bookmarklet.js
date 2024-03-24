@@ -19,3 +19,26 @@ boxHtml = '
     </div>
 ';
 body.innerHTML += boxHtml;
+
+function bookmarkletLaunch()
+{
+    bookmarklet = document.getElementById('bookmarklet');
+    var imagesFound = bookmarklet.querySelector('.images');
+
+    imagesFound.innerHTML = '';
+    bookmarklet.style.display = 'block';
+    bookmarklet.querySelector('#close').addEventListener('clik', function()
+    {
+        bookmarklet.style.display = 'none'
+    });
+    images = document.querySelectorAll('img[src$=".jpg"], img[src$=".jpeg", img[src$=".png"');
+    images.forEach(image => {
+        if(image.naturalWidth >= minWidth && image.naturalHeight >= minHeight)
+        {
+            var imageFound = document.createElement('img');
+            imageFound.src = image.src;
+            imagesFound.append(imageFound);
+        }
+    })
+}
+bookmarkletLaunch();
