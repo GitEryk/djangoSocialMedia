@@ -8,7 +8,7 @@
         <p>Welcome <strong>{{ request.user.first_name|default:request.user.username }}</strong> in main panel. You have added {{ total_images_created }} pictures</p>
     {% endwith %}
     <p> Take and drop the following button on the favorite bar. You gain the ability added pictures from other website
-        <a href='javascript: {% include "bookmarklet.js" %}' class="button">Bookmark it</a></p>
+        <a href='javascript: {% include "bookmarklet_launcher.js" %}' class="button">Bookmark it</a></p>
     <p>You have also
         <a href='{% url "edit" %}'>edited profile</a> or <a href='{% url "password_change" %}'> change password</a>.</p>
     <p>Remember to drink a lot of water</p>
