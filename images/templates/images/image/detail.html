@@ -8,7 +8,7 @@
         <a href='{{ image.image.url }} '>
              <img src='{% thumbnail image.image 300x0 %}' class="image-detail">
         </a>
-    {% with total_likes=image.users_like.count users_like=image.user_like_all %}
+    {% with total_likes=image.users_like.count users_like=image.users_like.all %}
         <div class="image-info">
             <div>
                 <span class="count">
@@ -16,8 +16,8 @@
                         {{ total_likes }} like
                     </span>
                 </span>
-<a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}dont{% endif %}like" class="like button">
-    {% if request.user not in user_like %}
+<a href="#" data-id="{{ image.id }}" data-action="{% if request.user in users_like %}un{% endif %}like" class="like button">
+    {% if request.user not in users_like %}
     Like
     {% else %}
     Unlike
@@ -26,11 +26,12 @@
             </div>
             {{ image.descritpion|linebreaks }}
         </div>
+        <div style="clear: both"></div>
         <div class="image_likes">
-            {% for user in user_like %}
+            {% for user in users_like %}
                 <div>
                     {% if user.profile.photo %}
-                        <img src="{{ user.profile.photo.url }}">
+                        <img src="{% thumbnail user.profile.photo 100x100 %}">
                     {% endif %}
                     <p> {{ user.first_name }}</p>
                 </div>
@@ -39,33 +40,38 @@
             {% endfor %}
         </div>
     {% endwith %}
+
+{% endblock %}
+
 {% block domready %}
-    const url = '{% url "images:like %}';
+    const url = '{% url "images:like" %}';
     var options = {
         method: "POST",
         headers: {'X-CSRFToken': csrftoken},
-        mode: 'same-origin"
+        mode: 'same-origin'
     }
     document.querySelector('a.like').addEventListener('click', function(e){
         e.preventDefault();
-        car likeButton = this;
-    var fromData = new FromData();
-    fromData.append('id', likeButton.dataset.id);
-    fromData.append('action', likeButton.dataset.action);
-    options['body'] = fromData;
+        var likeButton = this;
+        var fromData = new FormData();
+        fromData.append('id', likeButton.dataset.id);
+        fromData.append('action', likeButton.dataset.action);
+        options['body'] = fromData;
 
-    fetch(url, options).then(response=>response,json()).then(data=>{
-        if(data['status'] === "ok")
-        {
-            var previousAction = likeButton.dataset.action;
-            var action = previousAction === "like" ? "unlike" : "like";
-            likeButton.dataset.action = action;
-            likeButton.innerHTML = action;
-            var likeCount = document.querySelector('span.count.total');
-            var totalLikes = parseInt(likeCount.innerHTML);
-likeCount.innerHTML = previousAction === "like" ? totalLikes + 1 : totalLikes - 1;
-        }
+        fetch(url, options).then(response => response.json())
+            .then(data=>{
+            if(data['status'] === "ok")
+            {
+                var previousAction = likeButton.dataset.action;
+                var action = previousAction === "like" ? "unlike" : "like";
+                likeButton.dataset.action = action;
+                likeButton.innerHTML = action;
+                var likeCount = document.querySelector('span.count .total');
+
+                var totalLikes = parseInt(likeCount.innerHTML);
+
+    likeCount.innerHTML = previousAction === "like" ? totalLikes + 1 : totalLikes - 1;
+            }
         })
     });
-{% endblock %}
 {% endblock %}
