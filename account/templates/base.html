@@ -14,10 +14,10 @@
                 <a href='{% url "dashboard" %}'>Main panel</a>
             </li>
             <li {% if section == "image" %} class="selected" {% endif %}>
-                <a href="#">Image</a>
+                <a href='{% url "images:list" %}'>Image</a>
             </li>
             <li {% if section == "people" %} class="selected" {% endif %}>
-                <a href="#">People</a>
+                <a href='{% url "user_list" %}'>People</a>
             </li>
             <li {% if section == "edit" %} class="selected" {% endif %}>
                 <a href='{% url "edit" %}'>Profil</a>

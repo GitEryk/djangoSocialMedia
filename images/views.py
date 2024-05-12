@@ -1,12 +1,33 @@
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import ImageCreateForm
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
+from django.shortcuts import render, redirect
+from django.views.decorators.http import require_POST, require_GET
+from .forms import ImageCreateForm
 from .models import Image
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 
+
+@login_required
+@require_GET
+def image_list(request):
+    images = Image.objects.all()
+    paginator = Paginator(images, 5)
+    page = request.GET.get('page')
+    images_only = request.GET.get('images_only')
+    try:
+        images = paginator.page(page)
+    except PageNotAnInteger:
+        images = paginator.page(1)
+    except EmptyPage:
+        images = paginator.page(paginator.num_pages)
+        if images_only:
+            return HttpResponse('')
+    if images_only:
+        return render(request, 'images/image/list_images.html', {'section': 'images', 'images': images})
+    else:
+        return render(request, 'images/image/list.html', {'section': 'images', 'images': images})
 
 @login_required
 @require_POST

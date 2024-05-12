@@ -27,7 +27,7 @@
             {{ image.descritpion|linebreaks }}
         </div>
         <div style="clear: both"></div>
-        <div class="image_likes">
+        <div class="image_likes" id="picture">
             {% for user in users_like %}
                 <div>
                     {% if user.profile.photo %}
@@ -57,7 +57,7 @@
         fromData.append('id', likeButton.dataset.id);
         fromData.append('action', likeButton.dataset.action);
         options['body'] = fromData;
-
+        var picture;
         fetch(url, options).then(response => response.json())
             .then(data=>{
             if(data['status'] === "ok")
@@ -67,11 +67,9 @@
                 likeButton.dataset.action = action;
                 likeButton.innerHTML = action;
                 var likeCount = document.querySelector('span.count .total');
-
                 var totalLikes = parseInt(likeCount.innerHTML);
-
-    likeCount.innerHTML = previousAction === "like" ? totalLikes + 1 : totalLikes - 1;
+                likeCount.innerHTML = previousAction === "like" ? totalLikes + 1 : totalLikes - 1;
             }
         })
-    });
+    }); 
 {% endblock %}
