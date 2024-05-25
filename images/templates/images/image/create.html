@@ -4,10 +4,45 @@
 
 {% block content %}
     <h1>Add the picture</h1>
-    <img src="{{ request.GET.url }}" class="image-preview">
-    <form method="post">
-        {{ form.as_p }}
-        {% csrf_token %}
-        <input type="submit" value="check">
-    </form>
+    <div style="width:50%; float:left;">
+        <form method="post" action="" enctype="multipart/form-data">
+            {{ form.as_p }}
+            {% csrf_token %}
+            <input type="submit" value="Add">
+        </form>
+    </div>
+    <div style="max-width:40%; max-height: 600px; float:right; margin-right: 10%;" id="Loaded_pic"></div>
+{% endblock %}
+
+{% block domready %}
+
+    function addPic(e, flag)
+    {
+        const fileInput = e.target;
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.style = "max-width: 100%; max-height: 100%; object-fit: contain;";
+            whereAdd = document.querySelector('#Loaded_pic');
+            if(flag === 0)
+            {
+                whereAdd.appendChild(img);
+            }
+            else
+            {
+                whereAdd.innerHTML = '';
+                whereAdd.appendChild(img);
+            }
+            console.log(flag);
+        };
+        reader.readAsDataURL(file);
+        return 1;
+    }
+    var flag = 0;
+    console.log(flag);
+    document.querySelector('input[type="file"]').addEventListener('change', function(e){
+            flag = addPic(e, flag);
+        });
 {% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load thumbnail %}
+
+{% block title %}Top 10 most views pictures{% endblock %}
+
+{% block content %}
+<div style="width:50%; float: left;">
+    <h1>Top 10 the most popular pictures</h1>
+    <ol>
+        {% for image, views in most_viewed.items %}
+            {% thumbnail image.image  '120x120' crop='100%' as img %}
+            <img src="{{ img.url }}" >
+            <a href='{{ image.get_absolute_url }}'>
+                <p style="font-size: 30px; margin-top: 0px;">{{ image.title }}
+                        &#128064; {{ views }}</p>
+            </a>
+            <br>
+        {% endfor %}
+    </ol>
+</div>
+<div  style="width:50%; float: right;">
+    <h1>Top 10 the most liked pictures</h1>
+    <ol>
+        {% for image in most_liked %}
+                {% thumbnail image.image "120x120" crop="100%" as img %}
+                <img src="{{ img.url }}" >
+                <a href="{{ image.get_absolute_url }}">
+                    <p style="font-size: 30px; margin-top: 0px;">{{ image.title }}
+                        &#x2764;&#xfe0f; {{ image.total_likes }}</p>
+                </a>
+                <br>
+
+        {% endfor %}
+    </ol>
+</div>
+{% endblock %}

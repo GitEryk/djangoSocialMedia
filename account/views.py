@@ -10,7 +10,8 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from .models import Contact
-
+from actions.utils import create_action
+from actions.models import Action
 
 @login_required
 def edit(request):
@@ -35,8 +36,14 @@ def edit(request):
 
 @login_required
 def dashboard(request):
+    actions = Action.objects.exclude(user=request.user)
+    following_ids = request.user.following.values_list('id', flat=True)
+    if following_ids:
+        actions.filter(user_id__in=following_ids)
+    actions = actions.select_related('user', 'user__profile').prefetch_related('target')[:10]
     return render(request, "account/dashboard.html",
-                  {"section": "dashboard"})
+                  {"section": "dashboard", 'actions':actions})
+
 
 
 def user_login(request):
@@ -66,6 +73,7 @@ def register(request):
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data["password"])
             new_user.save()
+            create_action(new_user, 'Created accout')
             Profile.objects.create(user=new_user)
             return render(request, "account/register_done.html",
                           {"user_form": user_form})
@@ -99,8 +107,10 @@ def user_follow(request):
             user = User.objects.get(id=user_id)
             if action == 'follow':
                 Contact.objects.get_or_create(user_from=request.user, user_to=user)
+                create_action(request.user, 'Follow', user)
             else:
                 Contact.objects.filter(user_from=request.user, user_to=user).delete()
+                create_action(request.user, 'Unfollow', user)
             return JsonResponse({'status': 'ok'})
         except User.DoesNotExist:
             return JsonResponse({'status': 'ok'})

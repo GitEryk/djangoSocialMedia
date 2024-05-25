@@ -7,18 +7,20 @@ from django.urls import reverse
 class Image(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="images_created",
                              on_delete=models.CASCADE)
-    title = models.CharField(max_length=120)
-    slug = models.CharField(max_length=120, blank=True)
-    url = models.URLField(max_length=1000)
+    title = models.CharField(max_length=120, )
+    slug = models.CharField(max_length=120)
+    url = models.URLField(max_length=1000, blank=True)
     image = models.ImageField(upload_to='images/%Y/%m/%d/')
     description = models.TextField(blank=True)
     created = models.DateField(auto_now_add=True)
     users_like = models.ManyToManyField(settings.AUTH_USER_MODEL,
                                         related_name="images_liked", blank=True)
+    total_likes = models.PositiveIntegerField(default=0)
 
     class Meta:
         indexes = [
             models.Index(fields=['-created']),
+            models.Index(fields=['-total_likes']),
         ]
         ordering = ['-created']
 

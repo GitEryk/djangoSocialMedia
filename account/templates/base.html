@@ -1,4 +1,6 @@
+
 {% load static %}
+
 {{ '<' }}{{ '!DOCTYPE html>' }}
 <html>
 <head>
@@ -13,8 +15,12 @@
             <li {% if section == "dashboard" %} class="selected" {% endif %}>
                 <a href='{% url "dashboard" %}'>Main panel</a>
             </li>
-            <li {% if section == "image" %} class="selected" {% endif %}>
+            <li {% if section == "image" %} class="selected" {% endif %} onmouseover="showSubMenu()" onmouseout="hideSubMenu()">
                 <a href='{% url "images:list" %}'>Image</a>
+                <ul id="imageSubMenu" style="display: none;">
+                    <a href='{% url "images:create" %}'>Add new</a>
+                    <a href='{% url "images:ranking" %}'>Ranking</a>
+                </ul>
             </li>
             <li {% if section == "people" %} class="selected" {% endif %}>
                 <a href='{% url "user_list" %}'>People</a>
@@ -59,8 +65,16 @@
     const csrftoken = Cookies.get('csrftoken')
     document.addEventListener('DOMContentLoaded', (event) => {
         {% block domready %}
+
         {% endblock %}
     })
+        function showSubMenu() {
+            document.getElementById("imageSubMenu").style.display = "block";
+        }
+
+        function hideSubMenu() {
+            document.getElementById("imageSubMenu").style.display = "none";
+        }
 </script>
 </body>
 </html>
